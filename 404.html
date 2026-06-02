@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>每日阅读看板 - 2026-06-01</title>
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --panel: #ffffff;
+      --ink: #1d2733;
+      --muted: #647486;
+      --line: #d9e1ea;
+      --blue: #1d5f8f;
+      --green: #2f765e;
+      --amber: #9a6a18;
+      --soft-blue: #e8f2f8;
+      --soft-green: #eaf5ef;
+      --soft-amber: #f7f0df;
+    }
+
+    * { box-sizing: border-box; }
+
+    h1, h2, h3, p, dd, span, a {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+      overflow-x: hidden;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 48px;
+      overflow-x: hidden;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: end;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 750;
+    }
+
+    .theme {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .date-box {
+      text-align: right;
+      min-width: 140px;
+    }
+
+    .date-box strong {
+      display: block;
+      font-size: 20px;
+    }
+
+    .date-box span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .judgement {
+      display: block;
+      margin: 18px 0 24px;
+    }
+
+    .statement, .status-panel, section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .statement {
+      padding: 18px 20px;
+      border-left: 5px solid var(--blue);
+    }
+
+    .statement span, .section-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .statement p {
+      margin: 8px 0 0;
+      font-size: 20px;
+      font-weight: 650;
+    }
+
+    .status-panel {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .status-line {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 12px;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .status-line span {
+      min-width: 0;
+      text-align: right;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+
+    .status-line:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .status-line b {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    section {
+      padding: 18px;
+      margin-top: 16px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .book-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .item-card {
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-card.news { border-top: 4px solid var(--blue); }
+    .item-card.wechat { border-top: 4px solid var(--green); }
+    .item-card.book { border-top: 4px solid var(--amber); }
+
+    .item-head, .item-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .source, .policy {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .policy {
+      background: #f1f4f7;
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .chapter {
+      margin: -3px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .summary {
+      margin: 0;
+      color: #344457;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr);
+      gap: 6px 10px;
+      margin: 0;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+      font-size: 14px;
+    }
+
+    dt {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .book-reading {
+      display: grid;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px dashed var(--line);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .book-reading b {
+      display: block;
+      color: var(--amber);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .book-reading p {
+      margin: 0;
+      color: #344457;
+      font-size: 14px;
+    }
+
+    .book-reading ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #344457;
+      font-size: 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 2px 7px;
+      background: var(--soft-blue);
+      color: #1e587f;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .book .tag { background: var(--soft-amber); color: #7d5515; }
+    .wechat .tag { background: var(--soft-green); color: #2f6f58; }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    a:hover { text-decoration: underline; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .action-row span {
+      font-weight: 750;
+      color: var(--blue);
+    }
+
+    .action-row p {
+      margin: 0;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .page { padding: 18px 14px 34px; }
+      header, .judgement { grid-template-columns: 1fr; }
+      .date-box { text-align: left; }
+      .status-line { align-items: flex-start; grid-template-columns: 1fr; gap: 2px; }
+      .status-line span { text-align: left; }
+      .section-title { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .grid, .book-grid { grid-template-columns: 1fr; }
+      .statement p { font-size: 18px; }
+      .item-head, .item-foot { align-items: flex-start; flex-direction: column; }
+      a { white-space: normal; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { max-width: none; padding: 0; }
+      section, .statement, .status-panel, .item-card, .action-row {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+      a { color: var(--ink); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <h1>每日阅读看板</h1>
+      </div>
+      <div class="date-box">
+        <strong>2026-06-01</strong>
+      </div>
+    </header>
+
+    <div class="judgement">
+      <div class="statement">
+        <span>今日信息归纳</span>
+        <p>近半月信息显示：民航服务改革正在围绕效率、技术和旅客痛点展开，国际客运受区域冲突影响出现波动，AI管理文章也共同提示，技术价值最终取决于员工是否真正采用、现场是否形成统一语言和闭环动作。今天的管理重点，是把“数字化提效”落到旅客少等待、少反复询问、异常有人补位。</p>
+      </div>
+    </div>
+
+    <section>
+      <div class="section-title">
+        <h2>行业信号</h2>
+        <span class="section-label">民航行业 / 国际组织 / 公开媒体</span>
+      </div>
+      <div class="grid">
+      <article class="item-card news">
+        <div class="item-head">
+          <span class="source">中国改革报 / 新浪财经转载</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>民航业改革：效率、技术与服务的行业变革</h3>
+        
+        <p class="summary">文章梳理民航改革中围绕截载时间、中转服务、选座透明等出行痛点的变化，强调效率、技术和服务细节正在共同改变旅客体验。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>对地服管理来说，服务提升不能只讲态度，还要盯流程痛点：旅客为什么等、为什么问、为什么反复确认。</dd>
+          <dt>今日动作</dt>
+          <dd>今天选一个旅客高频抱怨点，用“是否能少等、少问、少跑”三问做一次现场复盘。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">近半月</span><span class="tag">服务改革</span><span class="tag">旅客痛点</span></div>
+          <a href="https://finance.sina.com.cn/jjxw/2026-05-25/doc-inhyzqsa3995554.shtml" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card news">
+        <div class="item-head">
+          <span class="source">IATA</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>4月全球航空客运需求受中东局势拖累下降3.4%</h3>
+        
+        <p class="summary">IATA发布4月全球客运需求数据，受中东区域冲突影响，全球客运需求同比下降3.4%；剔除中东影响后，需求仍增长1.2%。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>国际客流不是单纯增长或下降，而是更容易被区域冲突、航路调整、衔接变化影响；一线服务要提前识别旅客改签、中转和解释需求。</dd>
+          <dt>今日动作</dt>
+          <dd>检查今天国际及中转相关航班，提前准备改签、延误、衔接和行李问询的统一口径。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">近半月</span><span class="tag">国际客流</span><span class="tag">运行波动</span></div>
+          <a href="https://www.iata.org/en/pressroom/2026-releases/05-28-middle-east-war-fall-air-passenger-demand-april/" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card news">
+        <div class="item-head">
+          <span class="source">中国民航局华东地区管理局</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>2026年4月华东地区机场运输生产情况</h3>
+        
+        <p class="summary">华东地区4月机场旅客吞吐量3602.7万人次，1-4月累计旅客吞吐量14777.7万人次，同比增长4.7%，区域客流保持增长。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>区域客流增长说明服务压力已成为日常变量，不能只靠节假日动员，要用周度复盘和岗位清单稳定质量。</dd>
+          <dt>今日动作</dt>
+          <dd>用最近一周航班量和岗位出勤表检查：是否存在长期靠加班、临时协调或单点能人支撑的环节。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">近半月</span><span class="tag">区域客流</span><span class="tag">资源配置</span></div>
+          <a href="https://www.caac.gov.cn/big5/hd.caac.gov.cn/HD_XXGK/HD_TJSJ/202605/t20260525_230909.html" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card news">
+        <div class="item-head">
+          <span class="source">BCG波士顿咨询</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>Your AI Change Is Actually a People Change</h3>
+        
+        <p class="summary">BCG指出，AI变革的价值主要来自人的行为改变、组织共识和采用机制，而不是技术本身；成功项目要围绕关键工作流形成真实共识。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>地服数字化也一样：系统上线不是终点，员工愿不愿用、会不会用、异常时是否知道怎么补位，才决定效果。</dd>
+          <dt>今日动作</dt>
+          <dd>选一个数字工具或信息系统，问三个岗位：什么时候用、用来解决什么旅客问题、失效时怎么补位。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">近半月</span><span class="tag">AI变革</span><span class="tag">员工采用</span></div>
+          <a href="https://www.bcg.com/publications/2026/why-ai-change-is-actually-a-people-change" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>公众号精读</h2>
+        <span class="section-label">白名单抓取，只发布摘要与链接</span>
+      </div>
+      <div class="grid">
+      <article class="item-card wechat">
+        <div class="item-head">
+          <span class="source">中国民航报</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>近半月优先检索：服务改革、智慧出行、旅客痛点</h3>
+        
+        <p class="summary">公众号精读区当天只放可公开访问的摘要和链接，优先围绕民航服务改革、旅客出行痛点、效率提升和智慧化触点。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>公众号内容进入看板后，不搬运全文，只提炼“旅客感知、现场补位、会议表达”三件事。</dd>
+          <dt>今日动作</dt>
+          <dd>把今天看到的一个服务改革案例，改写成班组检查问题：旅客是否少等、员工是否少解释、异常是否能补救。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">公众号精读</span><span class="tag">近半月</span><span class="tag">服务改革</span></div>
+          <a href="https://finance.sina.com.cn/jjxw/2026-05-25/doc-inhyzqsa3995554.shtml" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card wechat">
+        <div class="item-head">
+          <span class="source">BCG波士顿咨询</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>Your AI Won’t Scale Without a Shared Language</h3>
+        
+        <p class="summary">BCG认为，AI规模化需要组织内部对核心概念形成共同语言，否则系统、业务和一线之间会各说各话，难以沉淀复用能力。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>这对地服同样适用：旅客体验、异常、补救、升级、闭环等词，要在管理层、班组长和一线之间有同一套定义。</dd>
+          <dt>今日动作</dt>
+          <dd>抽一个常用管理词，比如“闭环”或“服务补救”，写成一线能听懂的定义和判断标准。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">共享语言</span><span class="tag">AI规模化</span><span class="tag">口径一致</span></div>
+          <a href="https://www.bcg.com/publications/2026/your-ai-wont-scale-without-a-shared-language" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card wechat">
+        <div class="item-head">
+          <span class="source">麦肯锡</span>
+          <span class="policy">summary_only</span>
+        </div>
+        <h3>从AI优势看现场管理：工具要形成不可复制的工作流</h3>
+        
+        <p class="summary">麦肯锡文章提醒，AI工具本身容易趋同，真正的优势来自组织能否把工具嵌入独特流程、数据和运营机制。</p>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>对一线管理来说，数字化不是多一个系统，而是把高频问题、标准答案、升级路径和复盘数据沉淀成自己的工作流。</dd>
+          <dt>今日动作</dt>
+          <dd>把一个高频旅客问题整理成“标准答案、例外情况、升级路径、复盘字段”四栏。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">工作流</span><span class="tag">AI优势</span><span class="tag">现场知识库</span></div>
+          <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/from-ai-table-stakes-to-ai-advantage-building-competitive-moats" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>书籍摘读</h2>
+        <span class="section-label">服务管理 / 流程改善 / 组织管理</span>
+      </div>
+      <div class="grid book-grid">
+      <article class="item-card book">
+        <div class="item-head">
+          <span class="source">关键时刻MOT</span>
+          <span class="policy">short_excerpt_only</span>
+        </div>
+        <h3>关键时刻MOT</h3>
+        <p class="chapter">服务接触点 / 现场授权 / 服务补救</p>
+        
+        
+        <div class="book-reading">
+          <div>
+            <b>原文式摘要</b>
+            <p>原文式摘要（非逐字摘录）：服务质量不是在办公室里被定义出来的，而是在旅客与一线员工接触的瞬间被感知出来的。每一次问询、解释、等待、补救和告知，都是旅客判断一家航空服务组织是否可靠的关键时刻。管理者不能只设计后台流程，还要设计这些现场瞬间：员工面对旅客时是否知道自己能做什么、该怎么说、什么时候升级、如何在规则范围内解决问题。真正的服务管理，不是把所有决定都往上收，而是让一线在关键时刻具备清晰边界和行动能力。放到地服现场看，一个柜台、一段广播、一次行李异常解释，都是组织能力的外显。旅客不关心内部流程多复杂，只会记住现场是否有人负责、信息是否一致、补救是否及时、态度是否可信。因此，管理者要把关键时刻拆成岗位语言、授权清单和复盘机制，并持续用真实案例训练员工的判断力。</p>
+          </div>
+          <div>
+            <b>岗位启发</b>
+            <p>地服岗位的关键时刻不是宏大流程，而是旅客在柜台、登机口、行李、中转、延误解释处遇到人的那一刻。</p>
+          </div>
+          <div>
+            <b>逻辑架构</b>
+            <ol><li>触点识别：列出旅客最容易焦虑、等待、反复询问的位置。</li><li>授权边界：明确班组可当场处理、必须升级、需事后复盘的边界。</li><li>补救闭环：现场解释、替代方案、责任交接和复盘记录同步完成。</li></ol>
+          </div>
+        </div>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>地服管理要把关键时刻写清楚：谁能判断、谁能补救、补救到什么边界、事后如何复盘。</dd>
+          <dt>今日动作</dt>
+          <dd>选择一个异常航班服务场景，写出3条现场授权边界和1条必须升级的红线。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">服务触点</span><span class="tag">现场授权</span><span class="tag">服务补救</span></div>
+          <a href="https://books.google.com/books?q=Moments+of+Truth+Jan+Carlzon" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card book">
+        <div class="item-head">
+          <span class="source">服务利润链</span>
+          <span class="policy">short_excerpt_only</span>
+        </div>
+        <h3>服务利润链</h3>
+        <p class="chapter">员工满意 / 服务质量 / 客户忠诚 / 经营结果</p>
+        
+        
+        <div class="book-reading">
+          <div>
+            <b>原文式摘要</b>
+            <p>原文式摘要（非逐字摘录）：企业的经营结果并不是孤立产生的，它与员工状态、内部服务质量、客户感知价值和客户忠诚之间存在连续关系。员工如果得不到必要支持，就难以持续提供稳定服务；服务如果不能让客户感到可靠和值得信任，就难以形成忠诚；客户忠诚如果不能被经营系统识别和维护，也难以转化为长期价值。放到地服管理中看，旅客满意背后往往不是某一次微笑服务，而是班组是否有清晰流程、岗位是否有工具支持、异常是否有人补位、管理者是否持续修正影响服务稳定性的内部问题。它提醒我们，服务经营不是只看投诉率或满意度结果，而要追问结果之前的原因：员工是否知道标准、是否拥有资源、是否得到反馈、是否能把问题带回流程改进。只有把员工体验、服务质量和旅客价值连起来，服务提升才不会停在口号层面。</p>
+          </div>
+          <div>
+            <b>岗位启发</b>
+            <p>一线员工如果没有清晰口径、工具支持和授权边界，就很难稳定输出旅客满意；员工体验会直接影响旅客体验。</p>
+          </div>
+          <div>
+            <b>逻辑架构</b>
+            <ol><li>员工侧：工具是否好用、口径是否清楚、补位是否有人支持。</li><li>服务侧：触点是否稳定、等待是否减少、解释是否一致。</li><li>经营侧：投诉下降、复购信任、客户贡献和组织效率形成闭环。</li></ol>
+          </div>
+        </div>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>如果一线员工长期靠临时协调解决系统断点，服务质量会不稳定；管理者要把常见断点变成流程、清单和培训。</dd>
+          <dt>今日动作</dt>
+          <dd>问班组一个问题：今天最消耗员工精力的旅客问题是什么？把答案转成一次流程优化清单。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">服务经营闭环</span><span class="tag">员工体验</span><span class="tag">客户忠诚</span></div>
+          <a href="https://store.hbr.org/product/the-service-profit-chain-how-leading-companies-link-profit-and-growth-to-loyalty-satisfaction-and-value/7474" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    
+
+      <article class="item-card book">
+        <div class="item-head">
+          <span class="source">清单革命</span>
+          <span class="policy">short_excerpt_only</span>
+        </div>
+        <h3>清单革命</h3>
+        <p class="chapter">复杂工作 / 检查清单 / 团队协作</p>
+        
+        
+        <div class="book-reading">
+          <div>
+            <b>原文式摘要</b>
+            <p>原文式摘要（非逐字摘录）：复杂工作中的错误，很多时候不是因为人没有责任心，也不是因为缺少专业知识，而是因为任务环节多、协同对象多、现场压力大，关键步骤容易在忙乱中被遗漏。清单的作用不是替代人的判断，而是在最容易出错的场景中，把必须完成的关键动作固定下来，让团队在压力下仍能保持基本秩序。对地服现场来说，清单尤其适合用于交接、异常航班、特殊旅客、行李问题和中转衔接等环节。好的清单应当短、明确、能执行，并且随着真实案例不断修订。它不是把制度整段搬到纸上，而是把最容易漏、最影响旅客感受、最需要跨岗位确认的动作提炼出来。班组使用清单时，重点不在于形式完整，而在于能不能帮助新人不慌、骨干不漏、交接不断、复盘有据。清单越贴近现场语言，越容易在高压时刻真正被使用，并沉淀为班组共同习惯。</p>
+          </div>
+          <div>
+            <b>岗位启发</b>
+            <p>地服现场的清单价值，是在忙乱、跨岗位、信息变化快的时候，帮班组保住关键动作。</p>
+          </div>
+          <div>
+            <b>逻辑架构</b>
+            <ol><li>场景筛选：只给高频、高风险、跨岗位事项做清单。</li><li>动作压缩：每张清单控制在5项左右，避免变成制度摘抄。</li><li>复盘更新：清单必须根据真实漏项、投诉和异常案例持续修订。</li></ol>
+          </div>
+        </div>
+        
+        <dl>
+          <dt>管理启发</dt>
+          <dd>清单要短、关键、可执行，不替代经验，只防止忙乱时漏掉关键动作。</dd>
+          <dt>今日动作</dt>
+          <dd>把一个容易漏项的交接动作压缩成5项以内：对象、状态、风险、责任人、下一步。</dd>
+        </dl>
+        <div class="item-foot">
+          <div class="tags"><span class="tag">班组清单</span><span class="tag">交接复盘</span><span class="tag">风险控制</span></div>
+          <a href="https://atulgawande.com/book/the-checklist-manifesto/" target="_blank" rel="noopener">打开来源</a>
+        </div>
+      </article>
+    </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>今日转化</h2>
+        <span class="section-label">把阅读变成管理动作</span>
+      </div>
+      <div class="actions">
+      <div class="action-row">
+        <span>今日判断</span>
+        <p>今天阅读主线是“近半月服务改革和AI变革都指向同一件事”：系统和流程必须转化为现场一致动作。</p>
+      </div>
+    
+
+      <div class="action-row">
+        <span>会议表达</span>
+        <p>可以在讲评中使用这句话：服务提升不能只看系统上线和流程缩短，更要看旅客在关键触点是否少等待、少焦虑、少反复询问。</p>
+      </div>
+    
+
+      <div class="action-row">
+        <span>现场动作</span>
+        <p>今天建议只做一件小事：抽一个高频旅客问题，核对线上提示、柜台解释、登机口广播、异常升级是否口径一致。</p>
+      </div>
+    </div>
+    </section>
+
+    <footer>
+      公开版不转载公众号或书籍大段原文。数据源：C:\Users\HUAWEI\Documents\Codex\2026-06-01\html\outputs\daily-reading-dashboard\data\daily\2026-06-01.json
+    </footer>
+  </main>
+</body>
+</html>
