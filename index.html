@@ -6,16 +6,19 @@
   <title>每日阅读看板 - 2026-06-01</title>
   <style>
     :root {
-      --bg: #f7f9fb;
+      --bg: #f7f3ee;
       --panel: #ffffff;
-      --ink: #1d2733;
-      --muted: #647486;
-      --line: #d9e1ea;
-      --blue: #1d5f8f;
-      --green: #2f765e;
+      --ink: #1f1f1f;
+      --muted: #6f6258;
+      --line: #e4d8cc;
+      --red: #c40000;
+      --deep-red: #8f0000;
+      --gold: #b8862b;
+      --blue: #8f1b1b;
+      --green: #7a2f2f;
       --amber: #9a6a18;
-      --soft-blue: #e8f2f8;
-      --soft-green: #eaf5ef;
+      --soft-blue: #fff7f2;
+      --soft-green: #f8f2ea;
       --soft-amber: #f7f0df;
     }
 
@@ -30,18 +33,25 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+      font-family: "Microsoft YaHei", "PingFang SC", "SimSun", "Segoe UI", Arial, sans-serif;
       line-height: 1.55;
       letter-spacing: 0;
       overflow-wrap: anywhere;
       overflow-x: hidden;
     }
 
+    body::before {
+      content: "";
+      display: block;
+      height: 8px;
+      background: linear-gradient(90deg, var(--deep-red), var(--red), #d9a441);
+    }
+
     .page {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 28px 22px 48px;
+      padding: 24px 22px 48px;
       overflow-x: hidden;
     }
 
@@ -50,15 +60,19 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 20px;
       align-items: end;
-      border-bottom: 2px solid var(--ink);
-      padding-bottom: 18px;
+      border-top: 3px solid var(--red);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0 16px;
       margin-bottom: 20px;
+      background: linear-gradient(180deg, #fff, #fffaf7);
     }
 
     h1 {
       margin: 0 0 8px;
-      font-size: 30px;
-      font-weight: 750;
+      font-size: 34px;
+      font-weight: 800;
+      font-family: "SimSun", "Microsoft YaHei", serif;
+      color: var(--deep-red);
     }
 
     .theme {
@@ -75,6 +89,7 @@
     .date-box strong {
       display: block;
       font-size: 20px;
+      color: var(--deep-red);
     }
 
     .date-box span {
@@ -90,14 +105,15 @@
     .statement, .status-panel, section {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 3px;
       min-width: 0;
       max-width: 100%;
     }
 
     .statement {
       padding: 18px 20px;
-      border-left: 5px solid var(--blue);
+      border-left: 5px solid var(--red);
+      box-shadow: inset 0 1px 0 #fff;
     }
 
     .statement span, .section-label {
@@ -110,6 +126,7 @@
       margin: 8px 0 0;
       font-size: 20px;
       font-weight: 650;
+      color: #2a211d;
     }
 
     .status-panel {
@@ -147,6 +164,7 @@
     section {
       padding: 18px;
       margin-top: 16px;
+      box-shadow: 0 1px 2px rgba(104, 55, 35, 0.06);
     }
 
     .section-title {
@@ -155,11 +173,28 @@
       align-items: baseline;
       gap: 12px;
       margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
     }
 
     h2 {
       margin: 0;
       font-size: 20px;
+      color: var(--deep-red);
+      font-family: "SimSun", "Microsoft YaHei", serif;
+      font-weight: 800;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.28em;
+      bottom: 0.25em;
+      width: 4px;
+      background: var(--red);
     }
 
     .grid {
@@ -178,7 +213,7 @@
       max-width: 100%;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 3px;
       padding: 15px;
       background: #fff;
       display: flex;
@@ -186,10 +221,10 @@
       gap: 10px;
     }
 
-    .item-card.news { border-top: 4px solid var(--blue); }
-    .item-card.wechat { border-top: 4px solid var(--green); }
+    .item-card.news { border-top: 4px solid #b33a2b; }
+    .item-card.wechat { border-top: 4px solid #9f5e2d; }
     .item-card.book { border-top: 4px solid var(--amber); }
-    .item-card.party { border-top: 4px solid #a6332d; }
+    .item-card.party { border-top: 4px solid var(--red); }
 
     .item-head, .item-foot {
       display: flex;
@@ -206,15 +241,17 @@
     }
 
     .policy {
-      background: #f1f4f7;
-      border-radius: 999px;
+      background: #f8eee9;
+      border-radius: 2px;
       padding: 2px 8px;
     }
 
     h3 {
       margin: 0;
-      font-size: 17px;
+      font-size: 18px;
       line-height: 1.35;
+      color: #211713;
+      font-weight: 800;
     }
 
     .chapter {
@@ -225,13 +262,13 @@
 
     .summary {
       margin: 0;
-      color: #344457;
+      color: #3c302a;
     }
 
     .short-quote {
       margin: 0;
       padding: 10px 12px;
-      border-left: 3px solid #a6332d;
+      border-left: 3px solid var(--red);
       background: #fff6f4;
       color: #4e2a27;
       font-size: 14px;
@@ -303,17 +340,17 @@
       min-height: 22px;
       padding: 2px 7px;
       background: var(--soft-blue);
-      color: #1e587f;
-      border-radius: 999px;
+      color: #8f1b1b;
+      border-radius: 2px;
       font-size: 12px;
     }
 
     .book .tag { background: var(--soft-amber); color: #7d5515; }
-    .wechat .tag { background: var(--soft-green); color: #2f6f58; }
+    .wechat .tag { background: var(--soft-green); color: #7f3c20; }
     .party .tag { background: #f7e8e5; color: #8b2d28; }
 
     a {
-      color: var(--blue);
+      color: var(--deep-red);
       text-decoration: none;
       font-weight: 650;
       white-space: nowrap;
@@ -334,13 +371,13 @@
       align-items: start;
       padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 3px;
       background: #fff;
     }
 
     .action-row span {
       font-weight: 750;
-      color: var(--blue);
+      color: var(--deep-red);
     }
 
     .action-row p {
@@ -421,14 +458,14 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">方向引领</span><span class="tag">科技创新</span><span class="tag">新质生产力</span><span class="tag">央企担当</span></div>
-          <a href="https://www.news.cn/politics/leaders/20260531/4b3f3464e32c4db7b671fbb0c69f5422/c.html" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://www.xinhuanet.com/politics/20260531/5e3ef024dd5a4b228b937ab3369e58b7/c.html" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
 
       <article class="item-card party">
         <div class="item-head">
-          <span class="source">国务院国资委</span>
+          <span class="source">新华社 / 财政部公开信息</span>
           <span class="policy">summary_only</span>
         </div>
         <h3>国有及国有控股企业运行信息：从经营数据看央企干部责任</h3>
@@ -444,7 +481,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">经营责任</span><span class="tag">提质增效</span><span class="tag">央企担当</span></div>
-          <a href="https://wap.sasac.gov.cn/n16582853/n16582888/c35442184/content.html" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://www.news.cn/fortune/20260530/cef0c953c8924aa18c44f16d06694e0a/c.html" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
@@ -467,7 +504,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">党建引领</span><span class="tag">作风建设</span><span class="tag">服务人民</span></div>
-          <a href="https://dangjian.people.com.cn/n1/2026/0521/c117092-40724579.html" target="_blank" rel="noopener">打开来源</a>
+          <a href="http://dangjian.people.com.cn/n1/2026/0521/c117092-40724579.html" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     </div>
@@ -505,7 +542,7 @@
 
       <article class="item-card news">
         <div class="item-head">
-          <span class="source">IATA</span>
+          <span class="source">新浪财经 / 财联社转载</span>
           <span class="policy">summary_only</span>
         </div>
         <h3>4月全球航空客运需求受中东局势拖累下降3.4%</h3>
@@ -521,7 +558,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">近半月</span><span class="tag">国际客流</span><span class="tag">运行波动</span></div>
-          <a href="https://www.iata.org/en/pressroom/2026-releases/05-28-middle-east-war-fall-air-passenger-demand-april/" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://cj.sina.com.cn/articles/view/2868676035/aafc85c302001quoy" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
@@ -551,7 +588,7 @@
 
       <article class="item-card news">
         <div class="item-head">
-          <span class="source">BCG波士顿咨询</span>
+          <span class="source">搜狗检索入口 / BCG主题</span>
           <span class="policy">summary_only</span>
         </div>
         <h3>Your AI Change Is Actually a People Change</h3>
@@ -567,7 +604,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">近半月</span><span class="tag">AI变革</span><span class="tag">员工采用</span></div>
-          <a href="https://www.bcg.com/publications/2026/why-ai-change-is-actually-a-people-change" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://www.sogou.com/web?query=BCG%20Your%20AI%20Change%20Is%20Actually%20a%20People%20Change%202026" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     </div>
@@ -604,7 +641,7 @@
 
       <article class="item-card wechat">
         <div class="item-head">
-          <span class="source">BCG波士顿咨询</span>
+          <span class="source">搜狗检索入口 / BCG主题</span>
           <span class="policy">summary_only</span>
         </div>
         <h3>Your AI Won’t Scale Without a Shared Language</h3>
@@ -620,14 +657,14 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">共享语言</span><span class="tag">AI规模化</span><span class="tag">口径一致</span></div>
-          <a href="https://www.bcg.com/publications/2026/your-ai-wont-scale-without-a-shared-language" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://www.sogou.com/web?query=BCG%20Your%20AI%20Won%E2%80%99t%20Scale%20Without%20a%20Shared%20Language%202026" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
 
       <article class="item-card wechat">
         <div class="item-head">
-          <span class="source">麦肯锡</span>
+          <span class="source">搜狗检索入口 / 麦肯锡主题</span>
           <span class="policy">summary_only</span>
         </div>
         <h3>从AI优势看现场管理：工具要形成不可复制的工作流</h3>
@@ -643,7 +680,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">工作流</span><span class="tag">AI优势</span><span class="tag">现场知识库</span></div>
-          <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/from-ai-table-stakes-to-ai-advantage-building-competitive-moats" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://www.sogou.com/web?query=%E9%BA%A6%E8%82%AF%E9%94%A1%20AI%20Advantage%20Building%20Competitive%20Moats%202026" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     </div>
@@ -688,7 +725,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">服务触点</span><span class="tag">现场授权</span><span class="tag">服务补救</span></div>
-          <a href="https://books.google.com/books?q=Moments+of+Truth+Jan+Carlzon" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://search.douban.com/book/subject_search?search_text=%E5%85%B3%E9%94%AE%E6%97%B6%E5%88%BBMOT" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
@@ -726,7 +763,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">服务经营闭环</span><span class="tag">员工体验</span><span class="tag">客户忠诚</span></div>
-          <a href="https://store.hbr.org/product/the-service-profit-chain-how-leading-companies-link-profit-and-growth-to-loyalty-satisfaction-and-value/7474" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://search.douban.com/book/subject_search?search_text=%E6%9C%8D%E5%8A%A1%E5%88%A9%E6%B6%A6%E9%93%BE" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     
@@ -764,7 +801,7 @@
         </dl>
         <div class="item-foot">
           <div class="tags"><span class="tag">班组清单</span><span class="tag">交接复盘</span><span class="tag">风险控制</span></div>
-          <a href="https://atulgawande.com/book/the-checklist-manifesto/" target="_blank" rel="noopener">打开来源</a>
+          <a href="https://search.douban.com/book/subject_search?search_text=%E6%B8%85%E5%8D%95%E9%9D%A9%E5%91%BD" target="_blank" rel="noopener">打开来源</a>
         </div>
       </article>
     </div>
